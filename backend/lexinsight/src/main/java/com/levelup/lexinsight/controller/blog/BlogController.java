@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -67,6 +68,28 @@ public class BlogController {
         }).collect(Collectors.toList());
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getBlogById(@PathVariable Long id) {
+        Optional<Blog> optionalBlog = blogRepository.findById(id);
+
+        if (optionalBlog.isPresent()) {
+            Blog blog = optionalBlog.get();
+
+            BlogResponse dto = new BlogResponse();
+            dto.setId(blog.getId());
+            dto.setTitle(blog.getTitle());
+            dto.setContent(blog.getContent());
+            dto.setLawyer_id(blog.getLawyer().getId());
+            dto.setExternalLink(blog.getExternalLink());
+            dto.setType(blog.getType());
+            dto.setCreatedAt(blog.getCreatedAt());
+
+            return ResponseEntity.ok(dto);
+        } else {
+            return ResponseEntity.status(404).body(new ApiResponse(404, "Blog not found"));
+        }
     }
 
 
