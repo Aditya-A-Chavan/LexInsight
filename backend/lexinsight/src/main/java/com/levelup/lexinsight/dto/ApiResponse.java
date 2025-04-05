@@ -1,16 +1,27 @@
-//SImple API RESPONSE GLOBAL
-
 package com.levelup.lexinsight.dto;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ApiResponse {
     private int status;
     private String message;
+    private Map<String, Object> data;
 
-    public ApiResponse() {}
+    public ApiResponse() {
+        this.data = new HashMap<>();
+    }
 
     public ApiResponse(int status, String message) {
         this.status = status;
         this.message = message;
+        this.data = new HashMap<>();
+    }
+
+    public ApiResponse(int status, String message, Map<String, Object> data) {
+        this.status = status;
+        this.message = message;
+        this.data = data;
     }
 
     public int getStatus() {
@@ -25,5 +36,16 @@ public class ApiResponse {
     }
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Map<String, Object> getData() {
+        return data;
+    }
+    public void setData(Map<String, Object> data) {
+        this.data = data;
+    }
+
+    public void addData(String key, Object value) {
+        this.data.put(key, value);
     }
 }
