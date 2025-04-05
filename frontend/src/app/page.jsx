@@ -1,13 +1,8 @@
 "use client";
 
-// Import React and necessary hooks
-import React, { useState } from "react";
-// Import Next.js Link component for client-side navigation
+import React from "react";
 import Link from "next/link";
-// Import necessary icons from lucide-react
 import {
-  Menu,
-  Search,
   BookOpen,
   Video,
   MessageSquare,
@@ -18,7 +13,6 @@ import {
   Users,
   BookMarked,
   Mail,
-  X, // Import X icon for closing mobile menu
 } from "lucide-react";
 
 // --- Reusable Components ---
@@ -197,90 +191,7 @@ const NewsletterForm = () => (
 
 // Header Component
 // (Uses Next.js Link for navigation)
-const Header = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  // Define navigation links with actual paths for Next.js Link component
-  const navLinks = [
-    { href: "/articles", text: "Articles" },
-    { href: "/videos", text: "Videos" },
-    { href: "/forum", text: "Q&A Forum" },
-    { href: "/lexbot", text: "LexBot" }, // Assuming a dedicated page for LexBot interaction
-    { href: "/directory", text: "Lawyer Directory" },
-    { href: "/events", text: "Events" },
-    { href: "/about", text: "About Us" },
-  ];
-
-  return (
-    <header className="bg-background shadow-sm sticky top-0 z-50 border-b border-gray-200">
-      <nav className="container mx-auto px-6 py-3 flex justify-between items-center">
-        {/* Logo and Tagline - Link to homepage */}
-        <div>
-          <Link href="/" className="text-2xl font-bold text-primary">
-            LexInsight
-          </Link>
-          <p className="text-xs text-text/70 hidden sm:block">
-            Your Trusted Guide to Understanding Indian Law
-          </p>
-        </div>
-        {/* Navigation Links (Desktop) - Use Next.js Link */}
-        <div className="hidden md:flex items-center space-x-5">
-          {navLinks.map((link) => (
-            <Link
-              key={link.text}
-              href={link.href}
-              className="text-text/80 hover:text-primary font-medium"
-            >
-              {link.text}
-            </Link>
-          ))}
-          {/* Search button - likely triggers a modal or state change, not navigation */}
-          <button className="text-text/70 hover:text-primary">
-            <Search className="h-5 w-5" strokeWidth={1.5} />
-          </button>
-        </div>
-        {/* Mobile Menu Button */}
-        <div className="md:hidden">
-          <button
-            onClick={toggleMobileMenu}
-            className="text-text/80 hover:text-primary focus:outline-none"
-          >
-            {isMobileMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </button>
-        </div>
-      </nav>
-      {/* Mobile Menu (Conditionally Rendered) - Use Next.js Link */}
-      <div
-        className={`mobile-menu md:hidden ${isMobileMenuOpen ? "block" : "hidden"} bg-background border-t border-gray-200 py-2 px-6 space-y-1 absolute w-full shadow-lg`}
-      >
-        {navLinks.map((link) => (
-          <Link
-            key={link.text}
-            href={link.href}
-            className="block text-text/80 hover:text-primary py-1"
-            onClick={() => setIsMobileMenuOpen(false)} /* Close menu on click */
-          >
-            {link.text}
-          </Link>
-        ))}
-        {/* Mobile search input */}
-        <input
-          type="search"
-          placeholder="Search topics..."
-          className="mt-2 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary bg-background text-text placeholder:text-text/50"
-        />
-      </div>
-    </header>
-  );
-};
 
 // Hero Section Component
 // (Uses Next.js Link for internal links, 'a' tag for same-page anchor link)
@@ -304,12 +215,12 @@ const Hero = () => (
           Explore Legal Topics
         </Link>
         {/* Secondary CTA with Primary Color - Use 'a' tag for same-page anchor link */}
-        <a
-          href="#lexbot"
+        <Link
+          href="/chat"
           className="bg-primary hover:bg-primary-dark text-background font-semibold py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out inline-block"
         >
           Ask LexBot a Question
-        </a>
+        </Link>
       </div>
     </div>
   </section>
@@ -558,136 +469,21 @@ const NewsletterSection = () => (
 
 // Footer Component
 // (Uses Next.js Link for internal navigation links)
-const Footer = () => (
-  <footer className="bg-accent text-white py-10">
-    <div className="container mx-auto px-6">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-        {/* About LexInsight */}
-        <div>
-          <h5 className="text-lg font-semibold text-background mb-3">
-            LexInsight
-          </h5>
-          <p className="text-sm">
-            Empowering legal awareness across India through reliable information
-            and ethical practices.
-          </p>
-        </div>
-        {/* Quick Links - Use Next.js Link */}
-        <div>
-          <h5 className="text-lg font-semibold text-background mb-3">
-            Quick Links
-          </h5>
-          <ul className="space-y-2 text-sm">
-            <li>
-              <Link href="/articles" className="hover:text-background">
-                Articles & Blogs
-              </Link>
-            </li>
-            <li>
-              <Link href="/videos" className="hover:text-background">
-                Video Library
-              </Link>
-            </li>
-            <li>
-              <Link href="/forum" className="hover:text-background">
-                Q&A Forum
-              </Link>
-            </li>
-            <li>
-              <Link href="/directory" className="hover:text-background">
-                Lawyer Directory
-              </Link>
-            </li>
-          </ul>
-        </div>
-        {/* Resources - Use Next.js Link */}
-        <div>
-          <h5 className="text-lg font-semibold text-background mb-3">
-            Resources
-          </h5>
-          <ul className="space-y-2 text-sm">
-            <li>
-              <Link href="/about" className="hover:text-background">
-                About Us
-              </Link>
-            </li>
-            <li>
-              <Link href="/events" className="hover:text-background">
-                Events & Webinars
-              </Link>
-            </li>
-            <li>
-              <Link href="/faq" className="hover:text-background">
-                FAQ
-              </Link>
-            </li>
-            <li>
-              <Link href="/contact" className="hover:text-background">
-                Contact Us
-              </Link>
-            </li>
-          </ul>
-        </div>
-        {/* Legal - Use Next.js Link */}
-        <div>
-          <h5 className="text-lg font-semibold text-background mb-3">Legal</h5>
-          <ul className="space-y-2 text-sm">
-            <li>
-              <Link
-                href="/disclaimer"
-                className="hover:text-background font-semibold"
-              >
-                Disclaimer
-              </Link>
-            </li>
-            <li>
-              <Link href="/privacy" className="hover:text-background">
-                Privacy Policy
-              </Link>
-            </li>
-            <li>
-              <Link href="/terms" className="hover:text-background">
-                Terms of Service
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div className="border-t border-accent pt-6 text-center text-sm text-background/70">
-        <p>
-          &copy; {new Date().getFullYear()} LexInsight. All Rights Reserved.
-        </p>{" "}
-        {/* Dynamic year */}
-        <p className="mt-1">Promoting Legal Awareness Ethically.</p>
-      </div>
-    </div>
-  </footer>
-);
+
 
 // --- Main App Component ---
 // Note: In Next.js with the Pages Router, this structure would typically be in `pages/_app.js` and `pages/index.js`.
 // With the App Router, it would be in `app/layout.jsx` and `app/page.jsx`.
 // This example assumes this component represents the content of the main landing page (`pages/index.js` or `app/page.jsx`).
-function App() {
+export default function HomePage() {
   return (
-    // The outer div might be handled by a Layout component in Next.js
-    <div className="bg-background text-text">
-      {/* Header would typically be part of a shared Layout */}
-      <Header />
-      <main>
-        {/* These sections constitute the content of the homepage */}
-        <Hero />
-        <FeaturesSection />
-        <FeaturedContentSection />
-        <DirectorySection />
-        <TrustSection />
-        <NewsletterSection />
-      </main>
-      {/* Footer would typically be part of a shared Layout */}
-      <Footer />
-    </div>
+    <>
+      <Hero />
+      <FeaturesSection />
+      <FeaturedContentSection />
+      <DirectorySection />
+      <TrustSection />
+      <NewsletterSection />
+    </>
   );
 }
-
-// Export the main App component (or rename to Page, Home, etc. depending on Next.js router)
-export default App;

@@ -25,39 +25,7 @@ import {
     BookOpen
 } from "lucide-react";
 
-// Header component reused from main page (simplified)
-const Header = () => {
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  return (
-        <header className="bg-background shadow-sm sticky top-0 z-50 border-b border-gray-200">
-            <nav className="container mx-auto px-6 py-3 flex justify-between items-center">
-                <div>
-                    <Link href="/" className="text-2xl font-bold text-primary">
-                        LexInsight
-                    </Link>
-                    <p className="text-xs text-text/70 hidden sm:block">
-                        Your Trusted Guide to Understanding Indian Law
-                    </p>
-                </div>
-                <div className="hidden md:flex items-center space-x-5">
-                    <Link href="/articles" className="text-text/80 hover:text-primary font-medium">
-                        Articles
-                    </Link>
-                    <Link href="/directory" className="text-text/80 hover:text-primary font-medium">
-                        Directory
-                    </Link>
-                    <Link href="/profile" className="text-primary font-medium">
-                        Profile
-                    </Link>
-                    <button className="text-text/70 hover:text-primary">
-                        <Search className="h-5 w-5" strokeWidth={1.5} />
-                    </button>
-                </div>
-            </nav>
-        </header>
-    );
-};
 
 // Profile Header Component
 const ProfileHeader = () => (
@@ -362,7 +330,7 @@ const PublicationsSection = () => (
 export default function ProfilePage() {
     return (
         <div className="bg-primary/5 min-h-screen">
-            <Header />
+            
 
             <main className="container mx-auto px-4 py-6">
                 <div className="bg-background rounded-lg shadow-sm overflow-hidden mb-6">
