@@ -13,14 +13,13 @@ export function Header() {
 
   // Define navigation links with actual paths for Next.js Link component
   const navLinks = [
-  
+    { href: "/blogs", text: "Blogs" },
+    { href: "/forum", text: "Q&A Forum" },
     { href: "/videos", text: "Videos" },
-    { href: "/Forum", text: "Q&A Forum" },
     { href: "/lexbot", text: "LexBot" },
     { href: "/directory", text: "Lawyer Directory" },
     { href: "/events", text: "Events" },
     { href: "/about", text: "About Us" },
-    { href: "/blogs", text: "Blogs" },
   ];
 
   return (
