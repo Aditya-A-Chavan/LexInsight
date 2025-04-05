@@ -79,7 +79,7 @@ public class RegisterController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @PostMapping("/registerUser")
+    @PostMapping("/registeruser")
     public ResponseEntity<ApiResponse> registerUser(@RequestBody AuthenticationPayload payload) {
 
         User user = new User();
@@ -93,13 +93,13 @@ public class RegisterController {
         user.setNewzletter(payload.getNewzletter());
 
         if (payload.getNewzletter() == true){
-            user.setInterests(payload.getInterests());
+            List<String> interestsList = Arrays.asList(payload.getInterests());
+            user.setInterests(interestsList);
         }
 
+        userRepository.save(user);
 
-
-
-        ApiResponse apiResponse = new ApiResponse(200, "lawyer registered");
+        ApiResponse apiResponse = new ApiResponse(200, "user registered");
         return ResponseEntity.ok(apiResponse);
     }
 }

@@ -31,9 +31,6 @@ public class AuthenticationPayload {
     private Boolean newzletter;
     private String[] interests;
 
-    public List<String> getInterests() { return List.of(interests); }
-    public void setInterests(String[] interests) { this.interests = interests; }
-
     public Boolean getNewzletter() { return newzletter; }
     public void setNewzletter(Boolean newzletter) { this.newzletter = newzletter; }
 
@@ -101,6 +98,10 @@ public class AuthenticationPayload {
 
     public String[] getPractice_area() { return practice_area; }
     public void setPractice_area(String[] practice_area) { this.practice_area = practice_area; }
+
+    public String[] getInterests() { return interests; }
+    public void setInterests(String[] interests) { this.interests = interests; }
+
 
     public String getAbout_me() { return about_me; }
     public void setAbout_me(String about_me) { this.about_me = about_me; }
