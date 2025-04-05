@@ -26,18 +26,6 @@
     --font-mono: var(--font-mono);
 }
 
-/* Dark mode overrides */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --background: #0a0a0a;
-        --foreground: #ededed;
-
-        --color-primary: #67d534; /* optional: flip primary/secondary for dark mode if needed */
-        --color-secondary: #325b0b;
-        --color-accent: #1e90ff; /* optional tweak for dark mode visibility */
-    }
-}
-
 /* Base styles */
 body {
     background: var(--background);
