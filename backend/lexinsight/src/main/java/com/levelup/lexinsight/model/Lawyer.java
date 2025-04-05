@@ -13,7 +13,7 @@ import lombok.Setter;
 @Table(name = "lawyer")
 @Setter
 @Getter
-public class lawyer {
+public class Lawyer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

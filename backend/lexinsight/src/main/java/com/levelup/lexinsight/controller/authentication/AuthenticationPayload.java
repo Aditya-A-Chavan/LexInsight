@@ -26,6 +26,15 @@ public class AuthenticationPayload {
     private String[] practice_area;
     private String about_me;
 
+    private Boolean newzletter;
+    private String[] interests;
+
+    public String[] getInterests() { return interests; }
+    public void setInterests(String[] interests) { this.interests = interests; }
+
+    public Boolean getNewzletter() { return newzletter; }
+    public void setNewzletter(Boolean newzletter) { this.newzletter = newzletter; }
+
 
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }

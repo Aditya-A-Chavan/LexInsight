@@ -27,7 +27,7 @@ public class answere {
 
     @ManyToOne
     @JoinColumn(name = "lawyer_id", referencedColumnName = "id")
-    private lawyer lawyer;
+    private Lawyer lawyer;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
