@@ -1,4 +1,4 @@
-package com.level_up.lexinsight;
+package com.levelup.lexinsight;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
