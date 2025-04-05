@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Setter
 @Getter
-public class user {
+public class users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(name = "user_id")
     private Long userId;
 
@@ -37,4 +37,10 @@ public class user {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @Column(name = "newzletter", nullable = false, columnDefinition = "boolean default false")
+    private boolean newzletter;
+
+    @Column(name = "interests")
+    private List<String> interests;
 }

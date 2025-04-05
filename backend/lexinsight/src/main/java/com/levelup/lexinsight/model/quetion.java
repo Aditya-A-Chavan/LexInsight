@@ -13,7 +13,7 @@ public class quetion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(name = "question_id")
     private Long questionId;
 
@@ -22,7 +22,7 @@ public class quetion {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private user user;
+    private users users;
 
     @ManyToOne
     @JoinColumn(name = "lawyer_id", referencedColumnName = "id")

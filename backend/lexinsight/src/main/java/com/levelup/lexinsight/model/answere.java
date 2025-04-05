@@ -23,7 +23,7 @@ public class answere {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private user user;
+    private users users;
 
     @ManyToOne
     @JoinColumn(name = "lawyer_id", referencedColumnName = "id")
