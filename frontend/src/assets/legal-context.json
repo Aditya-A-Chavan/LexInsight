@@ -1,0 +1,45 @@
+{
+    "cases": [
+        {
+            "id": "case123",
+            "title": "Smith v. Jones",
+            "citation": "123 F.3d 456 (2022)",
+            "summary": "Established precedent for contract disputes in technology licensing agreements.",
+            "key_points": [
+                "Implicit terms can be enforced when industry standards are clear",
+                "Technical specifications form binding parts of agreements",
+                "Cure periods must be reasonable for technical breaches"
+            ]
+        },
+        {
+            "id": "case456",
+            "title": "Martin v. State",
+            "citation": "789 N.E.2d 012 (2021)",
+            "summary": "Key ruling on evidence admissibility for digital communications.",
+            "key_points": [
+                "Metadata is admissible to authenticate digital communications",
+                "Chain of custody must be documented for digital evidence",
+                "Expert testimony required for complex technical evidence"
+            ]
+        }
+    ],
+    "statutes": [
+        {
+            "id": "stat789",
+            "name": "Commercial Code §2-207",
+            "title": "Additional Terms in Acceptance or Confirmation",
+            "text": "A definite and seasonable expression of acceptance or a written confirmation which is sent within a reasonable time operates as an acceptance even though it states terms additional to or different from those offered or agreed upon, unless acceptance is expressly made conditional on assent to the additional or different terms."
+        },
+        {
+            "id": "stat101",
+            "name": "Electronic Communications Privacy Act",
+            "title": "18 U.S.C. § 2510-2523",
+            "text": "Prohibits unauthorized interception of electronic communications and provides privacy protections for stored electronic communications."
+        }
+    ],
+    "definitions": {
+        "force_majeure": "A contractual provision that excuses performance due to unforeseeable circumstances beyond parties' control",
+        "estoppel": "Legal principle preventing someone from asserting something contrary to what is implied by previous actions or statements",
+        "jurisdiction": "The official power to make legal decisions and judgments within a defined territory or over certain types of legal questions"
+    }
+}
