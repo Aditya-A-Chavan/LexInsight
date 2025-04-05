@@ -6,23 +6,24 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "quetion")
+@Table(name = "Answers")
 @Setter
 @Getter
-public class quetion {
+public class Answers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "question_id")
-    private Long questionId;
+    @Column(name = "answer")
+    private String answer;
 
-    @Column(name = "question")
-    private String question;
+    @ManyToOne
+    @JoinColumn(name = "question_id", referencedColumnName = "id")
+    private Quetion question;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private users users;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "lawyer_id", referencedColumnName = "id")
@@ -30,7 +31,4 @@ public class quetion {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-
-    @Column(name = "external_link")
-    private String externalLink;
 }

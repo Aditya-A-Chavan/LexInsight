@@ -1,5 +1,7 @@
 package com.levelup.lexinsight.controller.authentication;
 
+import java.util.List;
+
 // src/main/java/com/levelup/lexinsight/controller/authentication/RegisterRequest.java
 public class AuthenticationPayload {
     private String email;
@@ -22,14 +24,14 @@ public class AuthenticationPayload {
     private String profile_picture;
     private String social_media_links;
     private String specialization;
-    private String[] experience;
+    private String experience;
     private String[] practice_area;
     private String about_me;
 
     private Boolean newzletter;
     private String[] interests;
 
-    public String[] getInterests() { return interests; }
+    public List<String> getInterests() { return List.of(interests); }
     public void setInterests(String[] interests) { this.interests = interests; }
 
     public Boolean getNewzletter() { return newzletter; }
@@ -94,8 +96,8 @@ public class AuthenticationPayload {
     public String getSpecialization() { return specialization; }
     public void setSpecialization(String specialization) { this.specialization = specialization; }
 
-    public String[] getExperience() { return experience; }
-    public void setExperience(String[] experience) { this.experience = experience; }
+    public String getExperience() { return experience; }
+    public void setExperience(String     experience) { this.experience = experience; }
 
     public String[] getPractice_area() { return practice_area; }
     public void setPractice_area(String[] practice_area) { this.practice_area = practice_area; }

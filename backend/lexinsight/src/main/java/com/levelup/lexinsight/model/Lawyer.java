@@ -41,7 +41,7 @@ public class Lawyer {
     private String specialization;
 
     @Column(name = "experience")
-    private int experience;
+    private String experience;
 
     @Column(name = "rating")
     private double rating;
@@ -75,11 +75,13 @@ public class Lawyer {
 
     @Column(name = "languages")
     private String languages;
+    @Column(name = "about_me")
+    private String about_me;
 
     @Column(name = "Experience_in_years")
     private int experienceInYears;
 
-    @Column(columnDefinition = "json")
+    @Column(name = "education")
     private String education;
 
     @Column(name = "awards")
@@ -89,13 +91,13 @@ public class Lawyer {
     private String corporateClients;
 
     @OneToMany(mappedBy = "lawyer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<blog> blogs = new ArrayList<>();
+    private List<Blog> Blogs = new ArrayList<>();
 
     @OneToMany(mappedBy = "lawyer")
-    private List<answere> answere = new ArrayList<>();
+    private List<Answers> answers = new ArrayList<>();
 
     @OneToMany(mappedBy = "lawyer")
-    private List<quetion> quetion = new ArrayList<>();
+    private List<Quetion> quetion = new ArrayList<>();
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

@@ -1,29 +1,28 @@
 package com.levelup.lexinsight.model;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "answere")
+@Table(name = "Blog")
 @Setter
 @Getter
-public class answere {
+public class Blog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(name = "blog_id")
+    private Long blogId;
 
-    @Column(name = "answer")
-    private String answer;
+    @Column(name = "title")
+    private String title;
 
-    @ManyToOne
-    @JoinColumn(name = "question_id", referencedColumnName = "id")
-    private quetion question;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private users users;
+    @Column(name = "content")
+    private String content;
 
     @ManyToOne
     @JoinColumn(name = "lawyer_id", referencedColumnName = "id")
@@ -31,4 +30,7 @@ public class answere {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @Column(name = "external_link")
+    private String externalLink;
 }

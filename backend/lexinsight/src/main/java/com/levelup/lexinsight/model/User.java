@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "Users")
 @Setter
 @Getter
-public class users {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,10 +30,10 @@ public class users {
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<quetion> questions = new ArrayList<>();
+    private List<Quetion> questions = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<answere> answers = new ArrayList<>();
+    private List<Answers> answers = new ArrayList<>();
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

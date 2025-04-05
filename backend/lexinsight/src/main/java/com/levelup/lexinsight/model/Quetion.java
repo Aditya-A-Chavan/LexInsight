@@ -1,28 +1,28 @@
 package com.levelup.lexinsight.model;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "blog")
+@Table(name = "Quetion")
 @Setter
 @Getter
-public class blog {
+public class Quetion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @Column(name = "blog_id")
-    private Long blogId;
 
-    @Column(name = "title")
-    private String title;
+    @Column(name = "question_id")
+    private Long questionId;
 
-    @Column(name = "content")
-    private String content;
+    @Column(name = "question")
+    private String question;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "lawyer_id", referencedColumnName = "id")
