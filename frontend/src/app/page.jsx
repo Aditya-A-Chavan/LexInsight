@@ -216,7 +216,7 @@ const Hero = () => (
         </Link>
         {/* Secondary CTA with Primary Color - Use 'a' tag for same-page anchor link */}
         <Link
-          href="/chat"
+          href="/lexbot"
           className="bg-primary hover:bg-primary-dark text-background font-semibold py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out inline-block"
         >
           Ask LexBot a Question

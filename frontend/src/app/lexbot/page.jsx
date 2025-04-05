@@ -4,17 +4,13 @@ import { useState, useRef, useEffect } from 'react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 // Import your context JSON directly
 import contextData from '@/assets/legal-context.json';
-import Link from 'next/link';
-import { Search, Menu, X } from 'lucide-react';
+import ReactMarkdown from 'react-markdown'; // Add this import
 
 export default function Chat() {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
     const messagesEndRef = useRef(null);
-
-    // System prompt
-    const systemPrompt = "You are a legal assistant for LexInsight. Provide concise, accurate information about legal concepts and cases. When relevant, reference the context data provided. Always maintain a professional tone and clarify when you're uncertain.";
 
     // Auto-scroll to bottom when messages change
     useEffect(() => {
@@ -47,17 +43,24 @@ ${JSON.stringify(contextData, null, 2)}
 
 Here's my question: ${userInput}
 
-Please answer my question professionally, referencing relevant information from the context when applicable. Always maintain a professional tone as a LexInsight legal assistant.`;
+When answering:
+1. Refer to relevant blog posts that address my question when possible
+2. Include the lawyer ID who wrote any blog you mention
+3. Solve my legal query comprehensively
+4. Add direct links to suggested blogs in the format: https://localhost:3000/blog/[id]
+
+Please maintain a professional tone as a LexInsight legal assistant.`;
 
                 // Start a fresh chat and send the enhanced message
-                const chat = model.startChat();
+                const chat = model.startChat({
+                });
                 return await chat.sendMessage(enhancedUserInput);
             } else {
                 // For ongoing conversations, use existing history
                 const chat = model.startChat({
-                    history: chatHistory
+                    history: chatHistory,
                 });
-                
+
                 return await chat.sendMessage(userInput);
             }
         } catch (error) {
@@ -101,7 +104,7 @@ Please answer my question professionally, referencing relevant information from 
 
     return (
         <div className="bg-primary/5 min-h-screen">
-            
+
 
             <main className="container mx-auto px-4 py-6">
                 <div className="bg-background rounded-lg shadow-sm overflow-hidden mb-6">
@@ -136,7 +139,15 @@ Please answer my question professionally, referencing relevant information from 
                                         ? 'bg-primary text-white rounded-br-sm'
                                         : 'bg-gray-100 dark:bg-gray-700 text-white rounded-bl-sm'
                                         }`}>
-                                        {message.content}
+                                        {message.role === 'user' ? (
+                                            message.content
+                                        ) : (
+
+                                            <ReactMarkdown>
+                                                {message.content}
+                                            </ReactMarkdown>
+
+                                        )}
                                     </div>
                                     <div className={`text-xs mt-1 text-text/50 ${message.role === 'user' ? 'text-right' : ''}`}>
                                         {message.role === 'user' ? 'You' : 'LexBot'}
