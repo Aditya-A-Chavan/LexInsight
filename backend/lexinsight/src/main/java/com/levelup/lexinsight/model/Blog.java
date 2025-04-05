@@ -21,8 +21,9 @@ public class Blog {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "content")
+    @Column(name = "content", columnDefinition = "TEXT")
     private String content;
+    
 
     @ManyToOne
     @JoinColumn(name = "lawyer_id", referencedColumnName = "id")
@@ -33,4 +34,7 @@ public class Blog {
 
     @Column(name = "external_link")
     private String externalLink;
+
+    @Column(name = "type")
+    private String type;
 }
