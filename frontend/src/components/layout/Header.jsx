@@ -15,7 +15,7 @@ export function Header() {
   const navLinks = [
   
     { href: "/videos", text: "Videos" },
-    { href: "/forum", text: "Q&A Forum" },
+    { href: "/Forum", text: "Q&A Forum" },
     { href: "/lexbot", text: "LexBot" },
     { href: "/directory", text: "Lawyer Directory" },
     { href: "/events", text: "Events" },
