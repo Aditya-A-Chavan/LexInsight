@@ -170,7 +170,7 @@ const NewsletterForm = () => (
     </label>
     <div className="relative flex-grow w-full sm:w-auto">
       <Mail
-        className="lucide absolute left-3 top-1/2 -translate-y-1/2 text-text/40 h-5 w-5"
+        className="lucide absolute left-3 top-1/2 -translate-y-1/2 text-text/40 h-5 w-5 text-foreground"
         strokeWidth={1.5}
       />
       <input
@@ -178,13 +178,13 @@ const NewsletterForm = () => (
         id="email-sub"
         placeholder="Enter your email address"
         required
-        className="pl-10 pr-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary w-full text-text bg-background placeholder:text-text/50"
+        className="pl-10 pr-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary w-full text-foreground bg-background placeholder:text-text/50"
       />
     </div>
     {/* Button using Secondary color */}
     <button
       type="submit"
-      className="bg-secondary hover:bg-secondary-dark text-text font-semibold py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out w-full sm:w-auto"
+      className="bg-primary hover:bg-primary-dark text-text font-semibold py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out w-full sm:w-auto"
     >
       Subscribe
     </button>
@@ -298,7 +298,7 @@ const Hero = () => (
       <div className="space-y-4 sm:space-y-0 sm:space-x-4">
         {/* Primary CTA with Secondary Color - Use Next.js Link */}
         <Link
-          href="/topics"
+          href="/profile"
           /* Assuming a general topics page */ className="bg-secondary hover:bg-secondary-dark text-text font-semibold py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out inline-block"
         >
           Explore Legal Topics
