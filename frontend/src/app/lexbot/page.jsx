@@ -27,7 +27,7 @@ const LinkChip = ({ href, children }) => {
 // Custom renderer for markdown links
 const MarkdownComponents = {
     a: ({ href, children }) => {
-        if (href?.includes('localhost:3000/blog/')) {
+        if (href?.includes('localhost:3000/blogs/')) {
             return <LinkChip href={href}>{children}</LinkChip>;
         }
         return <a href={href} className="text-blue-600 hover:underline">{children}</a>;
@@ -85,7 +85,7 @@ IMPORTANT: When answering my question:
 4. Maintain a professional tone as a LexInsight legal assistant
 
 Example of how to include blog links:
-"Based on your question, I recommend reading Blog #123 (written by Lawyer ID: L456) which covers this topic in detail. You can find it here: http://localhost:3000/blog/123"
+"Based on your question, I recommend reading Blog #123 (written by Lawyer ID: L456) which covers this topic in detail. You can find it here: http://localhost:3000/blogs/123"
 
 Please ensure every response includes at least one direct blog link when relevant.`;
 
