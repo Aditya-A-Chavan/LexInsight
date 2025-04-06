@@ -53,7 +53,7 @@ public class BlogController {
 
     @GetMapping("/all-blogs")
     public ResponseEntity<List<BlogResponse>> getAllBlogs(){
-        List<Blog> blogs = blogRepository.findAll();
+        List<Blog> blogs = blogRepository.findAllWithLawyer();
 
         List<BlogResponse> response = blogs.stream().map(blog -> {
             BlogResponse dto = new BlogResponse();
