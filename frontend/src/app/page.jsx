@@ -14,6 +14,7 @@ import {
   BookMarked,
   Mail,
 } from "lucide-react";
+import { useBlogs } from '@/contexts/blogs.context';
 
 // --- Reusable Components ---
 // Note: In a Next.js project, these would typically reside in a 'components/' directory.
@@ -202,17 +203,17 @@ const Hero = () => (
         Demystifying Indian Law
       </h1>
       <p className="text-lg md:text-xl text-text/70 mb-8 max-w-3xl mx-auto">
-        Explore expert articles, explainer videos, Q&A forums, and AI assistance
+        Explore expert blogs, explainer videos, Q&A forums, and AI assistance
         to understand your rights and legal procedures in India. An ethical,
         educational resource compliant with Bar Council guidelines.
       </p>
       <div className="space-y-4 sm:space-y-0 sm:space-x-4">
         {/* Primary CTA with Secondary Color - Use Next.js Link */}
         <Link
-          href="/profile"
-          /* Assuming a general topics page */ className="bg-secondary hover:bg-secondary-dark text-text font-semibold py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out inline-block"
+          href="/blogs"
+          className="bg-secondary hover:bg-secondary-dark text-text font-semibold py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out inline-block"
         >
-          Explore Legal Topics
+          Read Legal Blogs
         </Link>
         {/* Secondary CTA with Primary Color - Use 'a' tag for same-page anchor link */}
         <Link
@@ -235,9 +236,9 @@ const FeaturesSection = () => {
       icon: BookOpen,
       title: "In-Depth Legal Guides",
       description:
-        "Access comprehensive articles written by experts on various Indian laws.",
-      linkText: "Read Articles",
-      linkHref: "/articles",
+        "Access comprehensive blogs written by experts on various Indian laws.",
+      linkText: "Read Blogs",
+      linkHref: "/blogs",
     },
     {
       icon: Video,
@@ -286,75 +287,78 @@ const FeaturesSection = () => {
 };
 
 // Featured Content Section Component
-// (Uses ArticleCard and TopicLink which now use Next.js Link)
 const FeaturedContentSection = () => {
-  // Placeholder data with updated linkHrefs for Next.js Link
-  const articles = [
-    {
-      title: "Understanding Property Co-ownership Rights",
-      description: "A brief overview of joint tenancy and tenancy in common...",
-      date: "April 5, 2025",
-      category: "Property Law",
-      linkHref: "/articles/property-co-ownership",
-    },
-    {
-      title: "Key Changes in the New Consumer Protection Act",
-      description:
-        "Exploring e-commerce regulations and mediation processes...",
-      date: "April 2, 2025",
-      category: "Consumer Rights",
-      linkHref: "/articles/consumer-protection-act-changes",
-    },
-    {
-      title: "Navigating Divorce Procedures in India",
-      description:
-        "An outline of mutual consent vs. contested divorce proceedings...",
-      date: "March 30, 2025",
-      category: "Family Law",
-      linkHref: "/articles/divorce-procedures-india",
-    },
-  ];
+  const { blogs, loading, error } = useBlogs();
   const topics = [
-    { text: "Family Law & Marriage", linkHref: "/topics/family-law" },
-    { text: "Property & Real Estate", linkHref: "/topics/property-law" },
-    { text: "Criminal Law Basics", linkHref: "/topics/criminal-law" },
+    { text: "Family Law & Marriage", linkHref: "/forum?category=family-law" },
+    { text: "Property & Real Estate", linkHref: "/forum?category=property-law" },
+    { text: "Criminal Law Basics", linkHref: "/forum?category=criminal-law" },
     {
       text: "Consumer Rights & Protection",
-      linkHref: "/topics/consumer-rights",
+      linkHref: "/forum?category=consumer-rights",
     },
-    { text: "Corporate Compliance", linkHref: "/topics/corporate-law" },
+    { text: "Corporate Compliance", linkHref: "/forum?category=corporate-law" },
   ];
-  // Assuming event registration link is external or handled differently
-  const event = {
-    title: "Webinar: Decoding Digital Personal Data Protection Act",
-    description: "Join us for an expert panel discussion...",
-    dateTime: "April 25, 2025 | 4:00 PM IST | Online",
-    linkHref: "https://example.com/webinar-registration",
-  }; // Example external link
+
+  if (loading) {
+    return (
+      <section className="py-16 bg-background">
+        <div className="container mx-auto px-6">
+          <div className="flex justify-center">
+            <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="py-16 bg-background">
+        <div className="container mx-auto px-6">
+          <div className="text-center text-red-600">
+            <p>Error loading blogs: {error}</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Get the latest 3 blogs
+  const latestBlogs = [...blogs]
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .slice(0, 3);
 
   return (
     <section className="py-16 bg-background">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* Latest Articles */}
+          {/* Latest Blogs */}
           <div>
             <h2 className="text-2xl font-bold text-primary mb-6">
-              Latest Articles
+              Latest Blogs
             </h2>
             <div className="space-y-4">
-              {articles.map((article) => (
-                <ArticleCard key={article.title} {...article} />
+              {latestBlogs.map((blog) => (
+                <ArticleCard
+                  key={blog.id}
+                  title={blog.title}
+                  description={blog.content}
+                  date={new Date(blog.createdAt).toLocaleDateString()}
+                  category={blog.type}
+                  linkHref={`/blogs/${blog.id}`}
+                />
               ))}
-              {/* Link to the main articles page */}
+              {/* Link to the main blogs page */}
               <Link
-                href="/articles"
+                href="/blogs"
                 className="text-primary hover:underline font-medium inline-block mt-4"
               >
-                View All Articles &rarr;
+                View All Blogs &rarr;
               </Link>
             </div>
           </div>
-          {/* Popular Topics & Events */}
+          {/* Popular Topics */}
           <div>
             <h2 className="text-2xl font-bold text-primary mb-6">
               Popular Topics
@@ -364,10 +368,6 @@ const FeaturedContentSection = () => {
                 <TopicLink key={topic.text} {...topic} />
               ))}
             </div>
-            <h2 className="text-2xl font-bold text-primary mt-8 mb-6">
-              Upcoming Events
-            </h2>
-            <EventCard {...event} />
           </div>
         </div>
       </div>
