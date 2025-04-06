@@ -1,258 +1,240 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useLawyers } from '@/contexts/lawyers.context';
 import Image from 'next/image';
+import { useParams } from 'next/navigation';
+import {
+  MapPin,
+  Briefcase,
+  Building,
+  GraduationCap,
+  Award,
+  MessageSquare,
+  UserPlus,
+  Mail,
+  Phone,
+  Globe,
+  Calendar,
+  FileText,
+  ThumbsUp,
+  MessageCircle,
+  Share2,
+  MoreHorizontal,
+  Search,
+  ChevronDown,
+  BookOpen
+} from "lucide-react";
 
-const LawyerProfile = ({ params }) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    city: ''
-  });
+// Section Card Component
+const SectionCard = ({ title, children }) => (
+  <div className="bg-background rounded-lg shadow-sm border border-gray-200 mb-6">
+    <div className="px-6 py-4 border-b border-gray-100">
+      <h2 className="text-xl font-semibold text-text">{title}</h2>
+    </div>
+    <div className="p-6">
+      {children}
+    </div>
+  </div>
+);
 
-  // Mock lawyer data - replace with actual data fetching from your backend
-  const lawyer = {
-    id: parseInt(params.id),
-    name: "John Doe",
-    profilePic: "/lawyer-profile.jpg",
-    isVerified: true,
-    rating: 4.8,
-    location: "Mumbai, Maharashtra",
-    experience: "15 years",
-    languages: ["English", "Hindi", "Gujarati"],
-    practiceAreas: ["Criminal Law", "Civil Law", "Family Law"],
-    phone: "*****12345",
-    description: "Experienced lawyer specializing in criminal and civil cases with a proven track record of successful outcomes. With over 15 years of experience, I have handled numerous high-profile cases and have a deep understanding of the legal system. My approach combines thorough research, strategic thinking, and effective communication to achieve the best possible outcomes for my clients.",
-    specialization: ["Criminal Defense", "Civil Litigation", "Family Disputes"],
-    courts: ["Supreme Court", "High Court", "District Court"],
-    education: [
-      {
-        degree: "LLB",
-        institution: "Mumbai University",
-        year: "2005"
-      },
-      {
-        degree: "BA in Law",
-        institution: "Government Law College, Mumbai",
-        year: "2003"
-      }
-    ],
-    achievements: [
-      "Best Criminal Lawyer Award 2020",
-      "Member of Bar Council of India",
-      "Published 5 research papers on Criminal Law"
-    ]
-  };
+const LawyerDetail = () => {
+  const { id } = useParams();
+  const { getLawyerById, loading, error } = useLawyers();
+  const lawyer = getLawyerById(id);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission logic here
-    console.log('Form submitted:', formData);
-  };
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-          {/* Header Section */}
-          <div className="relative h-48 bg-green-600">
-            <div className="absolute -bottom-16 left-4">
-              <div className="relative">
-                <Image
-                  src={lawyer.profilePic}
-                  alt={lawyer.name}
-                  width={150}
-                  height={150}
-                  className="rounded-full border-4 border-white"
-                />
-                {lawyer.isVerified && (
-                  <svg className="absolute bottom-2 right-2 text-green-500 w-6 h-6 bg-white rounded-full p-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Main Content */}
-          <div className="pt-20 px-6 pb-6">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Left Column - Main Info */}
-              <div className="lg:col-span-2">
-                <div className="flex items-center space-x-4">
-                  <h1 className="text-3xl font-bold text-gray-900">{lawyer.name}</h1>
-                  <div className="flex items-center text-yellow-400">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                    <span className="ml-1 text-gray-600">{lawyer.rating}</span>
-                  </div>
-                </div>
-
-                <div className="mt-4 flex items-center text-gray-600">
-                  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                  </svg>
-                  <span>{lawyer.location}</span>
-                </div>
-
-                <div className="mt-2 text-gray-600">
-                  <span className="font-semibold">Experience:</span> {lawyer.experience}
-                </div>
-
-                <div className="mt-6">
-                  <h2 className="text-xl font-semibold text-gray-900">About</h2>
-                  <p className="mt-2 text-gray-600">{lawyer.description}</p>
-                </div>
-
-                <div className="mt-6">
-                  <h2 className="text-xl font-semibold text-gray-900">Practice Areas</h2>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {lawyer.practiceAreas.map((area, index) => (
-                      <span key={index} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
-                        {area}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mt-6">
-                  <h2 className="text-xl font-semibold text-gray-900">Specialization</h2>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {lawyer.specialization.map((spec, index) => (
-                      <span key={index} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
-                        {spec}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mt-6">
-                  <h2 className="text-xl font-semibold text-gray-900">Courts</h2>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {lawyer.courts.map((court, index) => (
-                      <span key={index} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
-                        {court}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mt-6">
-                  <h2 className="text-xl font-semibold text-gray-900">Education</h2>
-                  <div className="mt-2 space-y-2">
-                    {lawyer.education.map((edu, index) => (
-                      <div key={index} className="text-gray-600">
-                        <p className="font-medium">{edu.degree}</p>
-                        <p className="text-sm">{edu.institution}</p>
-                        <p className="text-sm text-gray-500">{edu.year}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mt-6">
-                  <h2 className="text-xl font-semibold text-gray-900">Achievements</h2>
-                  <ul className="mt-2 space-y-2">
-                    {lawyer.achievements.map((achievement, index) => (
-                      <li key={index} className="flex items-start text-gray-600">
-                        <svg className="w-5 h-5 text-green-500 mr-2 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
-                        {achievement}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              {/* Right Column - Contact Form */}
-              <div className="lg:col-span-1">
-                <div className="bg-white rounded-lg shadow-lg p-6 sticky top-6">
-                  <h2 className="text-xl font-bold text-gray-900 mb-6">Get in Touch with {lawyer.name}</h2>
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                        Your Name
-                      </label>
-                      <input
-                        type="text"
-                        name="name"
-                        id="name"
-                        required
-                        value={formData.name}
-                        onChange={handleChange}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                        Your Email
-                      </label>
-                      <input
-                        type="email"
-                        name="email"
-                        id="email"
-                        required
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-                        Your Contact Number
-                      </label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        id="phone"
-                        required
-                        value={formData.phone}
-                        onChange={handleChange}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="city" className="block text-sm font-medium text-gray-700">
-                        Your City
-                      </label>
-                      <input
-                        type="text"
-                        name="city"
-                        id="city"
-                        value={formData.city}
-                        onChange={handleChange}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
-                      />
-                    </div>
-
-                    <button
-                      type="submit"
-                      className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                    >
-                      Submit
-                    </button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading lawyer details...</p>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto text-center">
+          <p className="text-red-600">{error}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!lawyer) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto text-center">
+          <h1 className="text-2xl font-bold text-gray-900">Lawyer not found</h1>
+          <p className="mt-2 text-gray-600">The lawyer you're looking for doesn't exist or has been removed.</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Profile Header */}
+      <div className="relative mb-24 md:mb-16">
+        <div className="h-48 md:h-64 bg-gradient-to-r from-primary/30 to-accent/30 w-full rounded-b-lg"></div>
+
+        <div className="absolute left-6 md:left-12 -bottom-16 border-4 border-background rounded-full">
+          <div className="w-32 h-32 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+            <Image
+                src={lawyer.profilePicture}
+                alt={lawyer.name}
+                width={128}
+                height={128}
+                className="rounded-full"
+              />
+            </div>
+          </div>
+
+          <div className="absolute right-6 bottom-4 flex space-x-3">
+            <button className="bg-primary hover:bg-primary-dark text-background px-4 py-1.5 rounded-md font-medium text-sm">
+              <MessageSquare size={14} className="inline mr-1" /> Message
+            </button>
+            <button className="bg-secondary hover:bg-secondary/80 text-text px-4 py-1.5 rounded-md font-medium text-sm">
+              <UserPlus size={14} className="inline mr-1" /> Connect
+            </button>
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* User Info */}
+          <div className="px-6 md:px-12 mb-8">
+            <h1 className="text-2xl md:text-3xl font-bold text-text">{lawyer.name}</h1>
+            <p className="text-lg text-text/80 mb-2">{lawyer.specialization}</p>
+
+            <div className="flex flex-wrap items-center text-sm text-text/60 gap-y-1">
+              <div className="flex items-center mr-4">
+                <MapPin size={14} className="mr-1" />
+                <span>{lawyer.address}</span>
+              </div>
+              <div className="flex items-center mr-4">
+                <Mail size={14} className="mr-1" />
+                <a href={`mailto:${lawyer.email}`} className="hover:text-primary">{lawyer.email}</a>
+              </div>
+              <div className="flex items-center mr-4">
+                <Phone size={14} className="mr-1" />
+                <span>{lawyer.phone}</span>
+              </div>
+              {lawyer.website && (
+                <div className="flex items-center">
+                  <Globe size={14} className="mr-1" />
+                  <a href={lawyer.website} className="hover:text-primary" target="_blank" rel="noopener noreferrer">
+                    {lawyer.website}
+                  </a>
+                </div>
+              )}
+            </div>
+
+            <div className="mt-4 flex items-center text-yellow-400">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              <span className="ml-1 text-gray-600">{lawyer.rating}</span>
+            </div>
+                </div>
+
+          {/* Professional Details */}
+          <SectionCard title="Professional Details">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h3 className="text-lg font-semibold text-text mb-2">Experience</h3>
+                <p className="text-text/80">{lawyer.experienceInYears} years of experience</p>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-text mb-2">Bar Registration</h3>
+                <p className="text-text/80">{lawyer.barRegistrationNumber}</p>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-text mb-2">Court Practiced</h3>
+                <p className="text-text/80">{lawyer.courtPracticed}</p>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-text mb-2">License Number</h3>
+                <p className="text-text/80">{lawyer.licenseNumber}</p>
+              </div>
+            </div>
+          </SectionCard>
+
+          {/* Practice Areas */}
+          <SectionCard title="Practice Areas">
+            <div className="flex flex-wrap gap-2">
+              {lawyer.practiceAreas?.map((area, index) => (
+                <div key={index} className="bg-primary/10 text-primary px-3 py-1.5 rounded-full text-sm">
+                  {area}
+                </div>
+                        ))}
+            </div>
+          </SectionCard>
+
+          {/* Languages */}
+          <SectionCard title="Languages">
+            <div className="flex flex-wrap gap-2">
+              {lawyer.languages ? (
+                lawyer.languages.split(',').map((lang, index) => (
+                  <div key={index} className="bg-accent/10 text-accent px-3 py-1.5 rounded-full text-sm">
+                    {lang.trim()}
+                  </div>
+                            ))
+              ) : (
+                <p className="text-text/60">No languages specified</p>
+              )}
+            </div>
+          </SectionCard>
+
+          {/* About */}
+          {lawyer.bio && (
+            <SectionCard title="About">
+              <p className="text-text/80">{lawyer.bio}</p>
+            </SectionCard>
+          )}
+
+          {/* Availability */}
+          {lawyer.availability && (
+            <SectionCard title="Availability">
+              <div className="flex items-center text-text/80">
+                <Calendar size={16} className="mr-2" />
+                <span>{lawyer.availability}</span>
+              </div>
+            </SectionCard>
+          )}
+
+          {/* Education */}
+          {lawyer.education && (
+            <SectionCard title="Education">
+              <div className="flex items-start">
+                <div className="w-12 h-12 bg-accent/10 rounded-md flex items-center justify-center text-accent mr-4">
+                  <GraduationCap size={24} />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-text">{JSON.parse(lawyer.education).qualification}</h3>
+                </div>
+              </div>
+            </SectionCard>
+          )}
+
+          {/* Awards */}
+          {lawyer.awards && (
+            <SectionCard title="Awards">
+              <div className="flex items-start">
+                <div className="w-12 h-12 bg-primary/10 rounded-md flex items-center justify-center text-primary mr-4">
+                  <Award size={24} />
+                </div>
+                <div>
+                  <p className="text-text/80">{lawyer.awards}</p>
+                </div>
+              </div>
+            </SectionCard>
+          )}
+        </div>
+      </div>
+    );
 };
 
-export default LawyerProfile; 
+export default LawyerDetail; 

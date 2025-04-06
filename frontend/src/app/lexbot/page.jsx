@@ -78,13 +78,16 @@ ${JSON.stringify(contextData, null, 2)}
 
 Here's my question: ${userInput}
 
-When answering:
-1. Refer to relevant blog posts that address my question when possible
-2. Include the lawyer ID who wrote any blog you mention
-3. Solve my legal query comprehensively
-4. Add direct links to suggested blogs in the format: https://localhost:3000/blog/[id]
+IMPORTANT: When answering my question:
+1. ALWAYS include direct links to relevant blog posts in this exact format: http://localhost:3000/blogs/[id]
+2. For each blog post you reference, include the lawyer ID who wrote it
+3. Provide comprehensive legal information that directly addresses my query
+4. Maintain a professional tone as a LexInsight legal assistant
 
-Please maintain a professional tone as a LexInsight legal assistant.`;
+Example of how to include blog links:
+"Based on your question, I recommend reading Blog #123 (written by Lawyer ID: L456) which covers this topic in detail. You can find it here: http://localhost:3000/blog/123"
+
+Please ensure every response includes at least one direct blog link when relevant.`;
 
                 // Start a fresh chat and send the enhanced message
                 const chat = model.startChat({

@@ -5,8 +5,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { UserDataProvider } from "@/contexts/userData.context";
 import "./globals.css";
-
-
+import { BlogsProvider } from "@/contexts/blogs.context";
+import { LawyersProvider } from "@/contexts/lawyers.context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,16 +18,19 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="bg-background text-text">
-        <UserDataProvider>
-          <Header />
-          <main>{children}</main>
-          <Footer />
-        </UserDataProvider>
+        <BlogsProvider>
+          <LawyersProvider>
+            <UserDataProvider>
+              <Header />
+              <main>{children}</main>
+              <Footer />
+            </UserDataProvider>
+          </LawyersProvider>
+        </BlogsProvider>
       </body>
     </html>
   );

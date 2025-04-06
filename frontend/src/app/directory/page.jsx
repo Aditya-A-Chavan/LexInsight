@@ -2,66 +2,95 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { useLawyers } from '@/contexts/lawyers.context';
 
 const LawyerDirectory = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPracticeArea, setSelectedPracticeArea] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
+  const [selectedSpecialization, setSelectedSpecialization] = useState('');
+  const [selectedLanguage, setSelectedLanguage] = useState('');
 
-  // Mock lawyers data - replace with actual data from your backend
-  const lawyers = [
-    {
-      id: 1,
-      name: "John Doe",
-      profilePic: "/lawyer-profile.jpg",
-      isVerified: true,
-      rating: 4.8,
-      location: "Mumbai, Maharashtra",
-      experience: "15 years",
-      languages: ["English", "Hindi", "Gujarati"],
-      practiceAreas: ["Criminal Law", "Civil Law", "Family Law"],
-      phone: "*****12345",
-      description: "Experienced lawyer specializing in criminal and civil cases.",
-      specialization: ["Criminal Defense", "Civil Litigation"],
-      courts: ["Supreme Court", "High Court"]
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      profilePic: "/lawyer-profile.jpg",
-      isVerified: true,
-      rating: 4.9,
-      location: "Delhi, NCR",
-      experience: "12 years",
-      languages: ["English", "Hindi"],
-      practiceAreas: ["Corporate Law", "Intellectual Property"],
-      phone: "*****67890",
-      description: "Expert in corporate law and intellectual property rights.",
-      specialization: ["Corporate Law", "IP Rights"],
-      courts: ["High Court", "District Court"]
-    },
-    // Add more lawyers as needed
-  ];
+  const { lawyers, loading, error, getPracticeAreas, getCities, getSpecializations, getLanguages } = useLawyers();
 
-  // Get unique practice areas and cities for filters
-  const practiceAreas = [...new Set(lawyers.flatMap(lawyer => lawyer.practiceAreas))];
-  const cities = [...new Set(lawyers.map(lawyer => lawyer.location.split(',')[0]))];
+  // Get filters
+  const practiceAreas = getPracticeAreas();
+  const cities = getCities();
+  const specializations = getSpecializations();
+  const languages = getLanguages();
+
+  const clearFilters = () => {
+    setSearchTerm('');
+    setSelectedPracticeArea('');
+    setSelectedCity('');
+    setSelectedSpecialization('');
+    setSelectedLanguage('');
+  };
 
   // Filter lawyers based on search term and filters
   const filteredLawyers = lawyers.filter(lawyer => {
-    const matchesSearch = lawyer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         lawyer.location.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesPracticeArea = !selectedPracticeArea || lawyer.practiceAreas.includes(selectedPracticeArea);
-    const matchesCity = !selectedCity || lawyer.location.startsWith(selectedCity);
-    return matchesSearch && matchesPracticeArea && matchesCity;
+    // Handle search term
+    const searchLower = searchTerm.toLowerCase();
+    const matchesSearch =
+      (lawyer.name?.toLowerCase() || '').includes(searchLower) ||
+      (lawyer.address?.toLowerCase() || '').includes(searchLower);
+
+    // Handle filters with null checks
+    const matchesPracticeArea = !selectedPracticeArea ||
+      selectedPracticeArea === "All" ||
+      lawyer.practiceAreas?.includes(selectedPracticeArea);
+
+    const matchesCity = !selectedCity ||
+      selectedCity === "All" ||
+      lawyer.address?.includes(selectedCity);
+
+    const matchesSpecialization = !selectedSpecialization ||
+      selectedSpecialization === "All" ||
+      lawyer.specialization === selectedSpecialization;
+
+    const matchesLanguage = !selectedLanguage ||
+      selectedLanguage === "All" ||
+      lawyer.languages?.includes(selectedLanguage);
+
+    return matchesSearch && matchesPracticeArea && matchesCity && matchesSpecialization && matchesLanguage;
   });
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading lawyers...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto text-center">
+          <p className="text-red-600">{error}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Search and Filter Section */}
         <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-semibold text-gray-900">Search Lawyers</h2>
+            <button
+              onClick={clearFilters}
+              className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+            >
+              Clear Filters
+            </button>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div>
               <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
                 Search Lawyers
@@ -85,7 +114,6 @@ const LawyerDirectory = () => {
                 onChange={(e) => setSelectedPracticeArea(e.target.value)}
                 className="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
               >
-                <option value="">All Practice Areas</option>
                 {practiceAreas.map((area) => (
                   <option key={area} value={area}>{area}</option>
                 ))}
@@ -101,9 +129,38 @@ const LawyerDirectory = () => {
                 onChange={(e) => setSelectedCity(e.target.value)}
                 className="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
               >
-                <option value="">All Cities</option>
                 {cities.map((city) => (
                   <option key={city} value={city}>{city}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="specialization" className="block text-sm font-medium text-gray-700 mb-1">
+                Specialization
+              </label>
+              <select
+                id="specialization"
+                value={selectedSpecialization}
+                onChange={(e) => setSelectedSpecialization(e.target.value)}
+                className="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
+              >
+                {specializations.map((spec) => (
+                  <option key={spec} value={spec}>{spec}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="language" className="block text-sm font-medium text-gray-700 mb-1">
+                Language
+              </label>
+              <select
+                id="language"
+                value={selectedLanguage}
+                onChange={(e) => setSelectedLanguage(e.target.value)}
+                className="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
+              >
+                {languages.map((lang) => (
+                  <option key={lang} value={lang}>{lang}</option>
                 ))}
               </select>
             </div>
@@ -118,17 +175,12 @@ const LawyerDirectory = () => {
                 <div className="flex items-start space-x-4">
                   <div className="relative">
                     <Image
-                      src={lawyer.profilePic}
+                      src={lawyer.profilePicture}
                       alt={lawyer.name}
                       width={100}
                       height={100}
                       className="rounded-lg"
                     />
-                    {lawyer.isVerified && (
-                      <svg className="absolute bottom-1 right-1 text-green-500 w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                    )}
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center space-x-2">
@@ -144,10 +196,13 @@ const LawyerDirectory = () => {
                       <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                       </svg>
-                      <span>{lawyer.location}</span>
+                      <span>{lawyer.address}</span>
                     </div>
                     <div className="mt-1 text-gray-600 text-sm">
-                      <span className="font-semibold">Experience:</span> {lawyer.experience}
+                      <span className="font-semibold">Experience:</span> {lawyer.experienceInYears} years
+                    </div>
+                    <div className="mt-1 text-gray-600 text-sm">
+                      <span className="font-semibold">Specialization:</span> {lawyer.specialization}
                     </div>
                   </div>
                 </div>
@@ -160,6 +215,21 @@ const LawyerDirectory = () => {
                         {area}
                       </span>
                     ))}
+                  </div>
+                </div>
+
+                <div className="mt-4">
+                  <h3 className="text-sm font-semibold text-gray-900">Languages</h3>
+                  <div className="mt-1 flex flex-wrap gap-1">
+                    {lawyer.languages ? (
+                      lawyer.languages.split(',').map((lang, index) => (
+                        <span key={index} className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">
+                          {lang.trim()}
+                        </span>
+                      ))
+                    ) : (
+                      <span className="text-gray-500 text-sm">No languages specified</span>
+                    )}
                   </div>
                 </div>
 
