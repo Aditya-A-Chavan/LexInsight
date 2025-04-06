@@ -61,8 +61,11 @@ public class BlogController {
             dto.setTitle(blog.getTitle());
             dto.setContent(blog.getContent());
             dto.setLawyer_id(blog.getLawyer().getId());
+            dto.setName(blog.getLawyer().getName());
+            dto.setBio(blog.getLawyer().getBio());
             dto.setExternalLink(blog.getExternalLink());
             dto.setType(blog.getType());
+            dto.setSpecialization(blog.getLawyer().getSpecialization());
             dto.setCreatedAt(blog.getCreatedAt());
             return dto;
         }).collect(Collectors.toList());
@@ -82,8 +85,11 @@ public class BlogController {
             dto.setTitle(blog.getTitle());
             dto.setContent(blog.getContent());
             dto.setLawyer_id(blog.getLawyer().getId());
+            dto.setName(blog.getLawyer().getName());
+            dto.setBio(blog.getLawyer().getBio());
             dto.setExternalLink(blog.getExternalLink());
             dto.setType(blog.getType());
+            dto.setSpecialization(blog.getLawyer().getSpecialization());
             dto.setCreatedAt(blog.getCreatedAt());
 
             return ResponseEntity.ok(dto);

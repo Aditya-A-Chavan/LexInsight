@@ -12,8 +12,12 @@ public class BlogResponse {
     private Long id;
     private String title;
     private String content;
-    private long lawyer_id;
+    private Long lawyer_id;
+    private String name;
+    private String bio;
     private String externalLink;
     private String type;
+    private String specialization;
     private LocalDateTime createdAt;
 }
+
