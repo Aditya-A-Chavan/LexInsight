@@ -1,4 +1,4 @@
-package com.levelup.lexinsight.controller.blog;
+package com.levelup.lexinsight.controller.data;
 
 
 import com.levelup.lexinsight.dto.ApiResponse;

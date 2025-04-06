@@ -1,34 +1,35 @@
 package com.levelup.lexinsight.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-
+import lombok.Data;
+import java.time.LocalDateTime;
 import java.util.List;
 
-@Setter
-@Getter
+@Data
 public class LawyerResponse {
-    private Integer experience_in_years;
-    private Double rating;
-    private String address;
-    private String availability;
-    private String awards;
-    private String bar_registration_number;
-    private String bio;
-    private String corporate_clients;
-    private String courtpracticed;
-    private String education;
+    private Long id;
     private String name;
+    private String email;
     private String phone;
+    private String address;
     private String pincode;
-    private String profile_picture;
-    private String social_media_links;
     private String specialization;
     private String experience;
-    private String[] practice_area;
+    private double rating;
+    private List<String> practiceAreas;
+    private String courtPracticed;
+    private String barRegistrationNumber;
+    private String profilePicture;
+    private String licenseNumber;
+    private String bio;
+    private String website;
+    private String socialMediaLinks;
+    private String availability;
+    private String languages;
     private String about_me;
-
-
-
-
+    private int experienceInYears;
+    private String education;
+    private String awards;
+    private String corporateClients;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

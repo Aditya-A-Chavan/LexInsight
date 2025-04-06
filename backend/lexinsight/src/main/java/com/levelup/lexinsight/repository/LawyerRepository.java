@@ -10,5 +10,8 @@ import java.util.Optional;
 public interface LawyerRepository extends JpaRepository<Lawyer, Long> {
     public boolean existsByEmail(String email);
 
+
     Optional<Lawyer> findByEmail(String email);
+
 }
+
