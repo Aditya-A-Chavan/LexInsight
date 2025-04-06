@@ -468,7 +468,6 @@ const NewsletterSection = () => (
 );
 
 // Footer Component
-// (Uses Next.js Link for internal navigation links)
 
 
 // --- Main App Component ---
