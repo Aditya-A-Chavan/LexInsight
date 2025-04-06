@@ -24,6 +24,42 @@ const videoGallery = [
     }
   },
   {
+    id: "video-005",
+    title: "Navigating Consumer Complaints and Remedies",
+    description: "Learn about the process of filing consumer complaints, your rights under the Consumer Protection Act, and the remedies available to you when dealing with defective products or services.",
+    videoUrl: "https://firebasestorage.googleapis.com/v0/b/garuda-d278e.appspot.com/o/WhatsApp%20Video%202025-04-06%20at%2008.31.42_5640c0c8.mp4?alt=media&token=ba6b139c-328b-4e5b-ab53-e1f62734a300",
+    thumbnail: "https://via.placeholder.com/640x360?text=Consumer+Complaints",
+    date: "June 10, 2023",
+    views: 3250,
+    likes: 285,
+    category: "Consumer Law",
+    tags: ["Consumer Rights", "Complaints", "Legal Remedies"],
+    lawyer: {
+      name: "Adv. Sanjay Gupta",
+      title: "Consumer Law Expert",
+      experience: "14+ years of experience",
+      avatar: "/images/lawyers/sanjay-gupta.jpg",
+    }
+  },
+  {
+    id: "video-006",
+    title: "Understanding Tenant Rights and Eviction Procedures",
+    description: "An in-depth explanation of tenant rights in India, the legal process of eviction, notice periods, and how to handle disputes with landlords legally.",
+    videoUrl: "https://firebasestorage.googleapis.com/v0/b/garuda-d278e.appspot.com/o/WhatsApp%20Video%202025-04-06%20at%2008.31.47_0309df56.mp4?alt=media&token=f22a59b9-5b88-4cb2-84e0-02ed1cee90aa",
+    thumbnail: "https://via.placeholder.com/640x360?text=Tenant+Rights",
+    date: "May 22, 2023",
+    views: 4120,
+    likes: 352,
+    category: "Property Law",
+    tags: ["Tenant Rights", "Eviction", "Rental Disputes"],
+    lawyer: {
+      name: "Adv. Lakshmi Nair",
+      title: "Property Law Specialist",
+      experience: "16+ years of experience",
+      avatar: "/images/lawyers/lakshmi-nair.jpg",
+    }
+  },
+  {
     id: "video-002",
     title: "Understanding Fundamental Rights in India",
     description: "A detailed explanation of the six fundamental rights guaranteed by the Indian Constitution and how they protect citizens in everyday situations.",
@@ -88,6 +124,7 @@ const categories = [
   "Property Law",
   "Labor Law",
   "Corporate Law",
+  "Consumer Law",
   "Tax Law"
 ];
 
