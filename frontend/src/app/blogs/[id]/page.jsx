@@ -276,8 +276,8 @@ export default function BlogPost() {
                       e.target.src = "https://via.placeholder.com/64?text=Lawyer";
                     }}
                   />
-                </div>
-                <div>
+          </div>
+          <div>
                   <h3 className="font-semibold text-gray-900">{blog.lawyer.name}</h3>
                   <p className="text-sm text-gray-500 mb-3">{blog.lawyer.credentials}</p>
                   <p className="text-gray-700">{blog.lawyer.bio}</p>
@@ -316,7 +316,7 @@ export default function BlogPost() {
                   Video Chat with a Lawyer
                 </button>
                 <p className="text-xs text-gray-500 mt-2 text-center">Get expert legal advice from specialists in {blog.categories?.[0] || "law"}</p>
-              </div>
+        </div>
 
               <h3 className="text-lg font-bold text-gray-800 mb-4">Related Articles</h3>
               <div className="space-y-4">
@@ -345,9 +345,9 @@ export default function BlogPost() {
                       </div>
                     </div>
                   </Link>
-                ))}
-              </div>
-              
+          ))}
+        </div>
+        
               <div className="border-t border-gray-100 my-6 pt-6">
                 <h3 className="text-lg font-bold text-gray-800 mb-4">Categories</h3>
                 <div className="flex flex-wrap gap-2">
@@ -355,15 +355,15 @@ export default function BlogPost() {
                     <Link href={`/blogs?category=${category}`} key={category}>
                       <span className="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm text-gray-700">
                         {category}
-                      </span>
+              </span>
                     </Link>
-                  ))}
+            ))}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      </div>
   );
 }
