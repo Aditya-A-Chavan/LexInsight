@@ -219,8 +219,8 @@ export default function BlogPage() {
 
             <div className="space-y-6">
               {sortedBlogs.map((blog) => (
-                <div
-                  key={blog.id}
+          <div
+            key={blog.id}
                   className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow"
                 >
                   {/* Lawyer Header - Twitter Style */}
@@ -253,8 +253,8 @@ export default function BlogPage() {
                   {/* Blog Content */}
                   <div className="mb-3">
                     <h2 className="text-xl font-bold text-gray-900 mb-2">
-                      {blog.title}
-                    </h2>
+              {blog.title}
+            </h2>
                     <p className="text-gray-700">{blog.summary}</p>
 
                     {/* Categories */}

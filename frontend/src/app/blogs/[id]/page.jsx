@@ -249,7 +249,19 @@ export default function BlogPost() {
                 </div>
               </div>
             </div>
-            
+
+            {/* Video Chat Button - Fixed Position */}
+            <div className="fixed bottom-8 right-8 z-20 md:hidden">
+              <button 
+                className="bg-green-600 hover:bg-green-700 text-white rounded-full shadow-lg p-4 flex items-center justify-center"
+                onClick={() => alert('Video chat feature coming soon!')}
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+              </button>
+            </div>
+
             {/* Author Bio */}
             <div className="bg-white rounded-xl shadow-sm p-6 mt-6">
               <h2 className="text-lg font-bold mb-4 text-gray-800">About the Author</h2>
@@ -269,9 +281,20 @@ export default function BlogPost() {
                   <h3 className="font-semibold text-gray-900">{blog.lawyer.name}</h3>
                   <p className="text-sm text-gray-500 mb-3">{blog.lawyer.credentials}</p>
                   <p className="text-gray-700">{blog.lawyer.bio}</p>
-                  <button className="mt-3 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium">
-                    Follow
-                  </button>
+                  <div className="mt-4 flex flex-wrap gap-3">
+                    <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium">
+                      Follow
+                    </button>
+                    <button 
+                      className="px-4 py-2 border border-green-600 text-green-600 bg-white rounded-lg hover:bg-green-50 font-medium flex items-center"
+                      onClick={() => alert('Video chat feature coming soon!')}
+                    >
+                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                      </svg>
+                      Video Chat Now
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -281,6 +304,20 @@ export default function BlogPost() {
           <div className="hidden lg:block w-80 shrink-0">
             {/* Related Articles */}
             <div className="bg-white rounded-xl shadow-sm p-6 sticky top-24">
+              {/* Video Chat Button for Desktop */}
+              <div className="mb-6">
+                <button 
+                  className="w-full py-3 px-4 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium flex items-center justify-center"
+                  onClick={() => alert('Video chat feature coming soon!')}
+                >
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                  Video Chat with a Lawyer
+                </button>
+                <p className="text-xs text-gray-500 mt-2 text-center">Get expert legal advice from specialists in {blog.categories?.[0] || "law"}</p>
+              </div>
+
               <h3 className="text-lg font-bold text-gray-800 mb-4">Related Articles</h3>
               <div className="space-y-4">
                 {relatedBlogs.map((relatedBlog) => (
