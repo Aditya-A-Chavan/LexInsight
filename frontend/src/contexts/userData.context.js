@@ -8,15 +8,29 @@ export const UserDataProvider = ({ children }) => {
     const [userData, setUserData] = useState(null)
 
     useEffect(() => {
-        const userData = localStorage.getItem('userData');
-        if (userData) {
-            setUserData(JSON.parse(userData));
+        console.log('UserDataProvider: Initializing...');
+        const storedData = localStorage.getItem('userData');
+        console.log('UserDataProvider: Stored data:', storedData);
+        if (storedData) {
+            try {
+                const parsedData = JSON.parse(storedData);
+                console.log('UserDataProvider: Parsed data:', parsedData);
+                setUserData(parsedData);
+            } catch (error) {
+                console.error('UserDataProvider: Error parsing stored data:', error);
+                localStorage.removeItem('userData');
+            }
         }
     }, []);
 
     useEffect(() => {
+        console.log('UserDataProvider: userData changed:', userData);
         if (userData) {
-            localStorage.setItem('userData', JSON.stringify(userData));
+            try {
+                localStorage.setItem('userData', JSON.stringify(userData));
+            } catch (error) {
+                console.error('UserDataProvider: Error storing data:', error);
+            }
         }
     }, [userData]);
 

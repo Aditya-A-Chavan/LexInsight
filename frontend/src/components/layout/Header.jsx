@@ -95,6 +95,13 @@ export function Header() {
               </button>
               {isProfileMenuOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+                  <Link
+                    href="/profile"
+                    className="block w-full text-left px-4 py-2 text-sm text-text/80 hover:bg-gray-100"
+                    onClick={() => setIsProfileMenuOpen(false)}
+                  >
+                    My Profile
+                  </Link>
                   <button
                     onClick={handleLogout}
                     className="block w-full text-left px-4 py-2 text-sm text-text/80 hover:bg-gray-100"

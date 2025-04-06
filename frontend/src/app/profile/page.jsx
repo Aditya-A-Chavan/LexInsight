@@ -1,8 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import axios from 'axios';
+import { UserDataContext } from '@/contexts/userData.context';
+import { useContext } from 'react';
 import {
     MapPin,
     Briefcase,
@@ -25,10 +28,8 @@ import {
     BookOpen
 } from "lucide-react";
 
-
-
 // Profile Header Component
-const ProfileHeader = () => (
+const ProfileHeader = ({ lawyer }) => (
     <div className="relative mb-24 md:mb-16">
         {/* Cover Image */}
         <div className="h-48 md:h-64 bg-gradient-to-r from-primary/30 to-accent/30 w-full rounded-b-lg"></div>
@@ -36,15 +37,25 @@ const ProfileHeader = () => (
         {/* Profile Picture */}
         <div className="absolute left-6 md:left-12 -bottom-16 border-4 border-background rounded-full">
             <div className="w-32 h-32 rounded-full bg-primary/20 flex items-center justify-center text-primary">
-                <FileText size={40} />
+                {lawyer.profilePicture ? (
+                    <Image
+                        src={lawyer.profilePicture}
+                        alt={lawyer.name}
+                        width={128}
+                        height={128}
+                        className="rounded-full"
+                    />
+                ) : (
+                        <FileText size={40} />
+                )}
             </div>
         </div>
 
         {/* Action Buttons */}
         <div className="absolute right-6 bottom-4 flex space-x-3">
-            <button className="bg-primary hover:bg-primary-dark text-background px-4 py-1.5 rounded-md font-medium text-sm">
+            <Link href="/profile/edit" className="bg-primary hover:bg-primary-dark text-background px-4 py-1.5 rounded-md font-medium text-sm">
                 Edit Profile
-            </button>
+            </Link>
             <button className="bg-background hover:bg-gray-100 text-text px-3 py-1.5 rounded-md font-medium text-sm border border-gray-300">
                 <MoreHorizontal size={18} />
             </button>
@@ -53,33 +64,39 @@ const ProfileHeader = () => (
 );
 
 // User Info Component
-const UserInfo = () => (
+const UserInfo = ({ lawyer }) => (
     <div className="px-6 md:px-12 mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-text">Aryan Malhotra</h1>
-        <p className="text-lg text-text/80 mb-2">Founder at LexInsight | Legal Technology Entrepreneur</p>
+        <h1 className="text-2xl md:text-3xl font-bold text-text">{lawyer.name}</h1>
+        <p className="text-lg text-text/80 mb-2">{lawyer.specialization}</p>
 
         <div className="flex flex-wrap items-center text-sm text-text/60 gap-y-1">
             <div className="flex items-center mr-4">
                 <MapPin size={14} className="mr-1" />
-                <span>Mumbai, Maharashtra, India</span>
+                <span>{lawyer.address}</span>
             </div>
             <div className="flex items-center mr-4">
                 <Mail size={14} className="mr-1" />
-                <a href="mailto:aryan@lexinsight.in" className="hover:text-primary">aryan@lexinsight.in</a>
+                <a href={`mailto:${lawyer.email}`} className="hover:text-primary">{lawyer.email}</a>
             </div>
-            <div className="flex items-center">
-                <Globe size={14} className="mr-1" />
-                <a href="https://lexinsight.in" className="hover:text-primary">lexinsight.in</a>
+            <div className="flex items-center mr-4">
+                <Phone size={14} className="mr-1" />
+                <span>{lawyer.phone}</span>
             </div>
+            {lawyer.website && (
+                <div className="flex items-center">
+                    <Globe size={14} className="mr-1" />
+                    <a href={lawyer.website} className="hover:text-primary" target="_blank" rel="noopener noreferrer">
+                        {lawyer.website}
+                    </a>
+                </div>
+            )}
         </div>
 
-        <div className="mt-4 flex flex-wrap gap-3">
-            <button className="bg-primary hover:bg-primary-dark text-background px-4 py-1.5 rounded-md font-medium text-sm">
-                <MessageSquare size={14} className="inline mr-1" /> Message
-            </button>
-            <button className="bg-secondary hover:bg-secondary/80 text-text px-4 py-1.5 rounded-md font-medium text-sm">
-                <UserPlus size={14} className="inline mr-1" /> Connect
-            </button>
+        <div className="mt-4 flex items-center text-yellow-400">
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+            <span className="ml-1 text-gray-600">{lawyer.rating}</span>
         </div>
     </div>
 );
@@ -97,258 +114,182 @@ const SectionCard = ({ title, children }) => (
 );
 
 // About Section Component
-const AboutSection = () => (
+const AboutSection = ({ lawyer }) => (
     <SectionCard title="About">
-        <p className="text-text/80">
-            Legal technology entrepreneur passionate about making legal knowledge accessible to all Indian citizens.
-            Founded LexInsight with a vision to bridge the gap between complex legal frameworks and everyday people.
-            <br /><br />
-            With over 15 years of experience in both law practice and technology development, I lead a team dedicated to
-            creating educational resources that empower individuals to understand their rights and navigate legal processes confidently.
-        </p>
+        <p className="text-text/80">{lawyer.bio || lawyer.about_me}</p>
     </SectionCard>
-);
-
-// Experience Item Component
-const ExperienceItem = ({ role, company, duration, location, description, current }) => (
-    <div className="mb-6 last:mb-0">
-        <div className="flex items-start">
-            <div className="w-12 h-12 bg-primary/10 rounded-md flex items-center justify-center text-primary mr-4">
-                <Building size={24} />
-            </div>
-            <div className="flex-1">
-                <h3 className="text-lg font-semibold text-text">{role}</h3>
-                <p className="text-text/80">{company}</p>
-                <p className="text-sm text-text/60">{duration} • {location}</p>
-                {current && <span className="inline-block bg-secondary/20 text-primary text-xs px-2 py-1 rounded-full mt-1">Current</span>}
-
-                <p className="mt-3 text-text/80">{description}</p>
-            </div>
-        </div>
-    </div>
 );
 
 // Experience Section Component
-const ExperienceSection = () => (
+const ExperienceSection = ({ lawyer }) => (
     <SectionCard title="Experience">
-        <ExperienceItem
-            role="Founder & CEO"
-            company="LexInsight"
-            duration="Jan 2020 - Present"
-            location="Mumbai, India"
-            description="Leading a team of legal experts and technologists to build India's most comprehensive legal education platform. Responsible for strategic vision, partnerships with legal professionals, and ensuring all content adheres to Bar Council of India guidelines."
-            current={true}
-        />
-
-        <ExperienceItem
-            role="Legal Tech Consultant"
-            company="TechLaw Solutions"
-            duration="Mar 2016 - Dec 2019"
-            location="Delhi, India"
-            description="Advised law firms and legal departments on technology adoption. Developed custom legal knowledge management systems and conducted workshops on legal tech innovation."
-        />
-
-        <ExperienceItem
-            role="Associate Lawyer"
-            company="Sharma & Associates"
-            duration="May 2010 - Feb 2016"
-            location="Mumbai, India"
-            description="Practiced in corporate and technology law, focusing on technology agreements, data privacy compliance, and startup advisory."
-        />
+        <div className="space-y-4">
+            <div className="flex items-start">
+                <div className="w-12 h-12 bg-primary/10 rounded-md flex items-center justify-center text-primary mr-4">
+                    <Building size={24} />
+                </div>
+                <div>
+                    <h3 className="text-lg font-semibold text-text">Experience</h3>
+                    <p className="text-text/80">{lawyer.experienceInYears} years of experience</p>
+                    <p className="text-sm text-text/60">{lawyer.experience}</p>
+                </div>
+            </div>
+            <div className="flex items-start">
+                <div className="w-12 h-12 bg-primary/10 rounded-md flex items-center justify-center text-primary mr-4">
+                    <Briefcase size={24} />
+                </div>
+                <div>
+                    <h3 className="text-lg font-semibold text-text">Court Practiced</h3>
+                    <p className="text-text/80">{lawyer.courtPracticed}</p>
+                </div>
+            </div>
+        </div>
     </SectionCard>
 );
 
-// Education Item Component
-const EducationItem = ({ degree, institution, year, description }) => (
-    <div className="mb-6 last:mb-0">
+// Education Section Component
+const EducationSection = ({ lawyer }) => (
+    <SectionCard title="Education">
         <div className="flex items-start">
             <div className="w-12 h-12 bg-accent/10 rounded-md flex items-center justify-center text-accent mr-4">
                 <GraduationCap size={24} />
             </div>
             <div>
-                <h3 className="text-lg font-semibold text-text">{degree}</h3>
-                <p className="text-text/80">{institution}</p>
-                <p className="text-sm text-text/60">{year}</p>
-                {description && <p className="mt-2 text-text/80">{description}</p>}
+                <p className="text-text/80">{lawyer.education}</p>
             </div>
         </div>
-    </div>
-);
-
-// Education Section Component
-const EducationSection = () => (
-    <SectionCard title="Education">
-        <EducationItem
-            degree="LL.M., Technology & Intellectual Property Law"
-            institution="National Law School of India University"
-            year="2008 - 2010"
-            description="Specialized in legal implications of emerging technologies, data protection laws, and intellectual property in digital ecosystems."
-        />
-
-        <EducationItem
-            degree="B.A. LL.B. (Hons)"
-            institution="Faculty of Law, University of Delhi"
-            year="2003 - 2008"
-        />
     </SectionCard>
 );
 
 // Skills Section Component
-const SkillsSection = () => {
-    const skills = [
-        "Legal Education", "Technology Law", "Legal Content Creation",
-        "Public Speaking", "Legal Research", "Product Development",
-        "Team Leadership", "Strategic Planning", "Legal Ethics"
-    ];
-
-    return (
-        <SectionCard title="Skills">
-            <div className="flex flex-wrap gap-2">
-                {skills.map(skill => (
-                    <div key={skill} className="bg-primary/10 text-primary px-3 py-1.5 rounded-full text-sm">
-                        {skill}
-                    </div>
-                ))}
-            </div>
-        </SectionCard>
-    );
-};
-
-// Activity Post Component
-const ActivityPost = ({ content, timestamp, likes, comments }) => (
-    <div className="mb-6 last:mb-0 pb-6 last:pb-0 border-b last:border-b-0 border-gray-100">
-        <p className="text-text/80 mb-3">{content}</p>
-
-        <div className="text-xs text-text/60 mb-3">{timestamp}</div>
-
-        <div className="flex items-center gap-4">
-            <button className="flex items-center text-text/70 hover:text-primary">
-                <ThumbsUp size={16} className="mr-1" />
-                <span>{likes}</span>
-            </button>
-            <button className="flex items-center text-text/70 hover:text-primary">
-                <MessageCircle size={16} className="mr-1" />
-                <span>{comments}</span>
-            </button>
-            <button className="flex items-center text-text/70 hover:text-primary">
-                <Share2 size={16} className="mr-1" />
-                <span>Share</span>
-            </button>
+const SkillsSection = ({ lawyer }) => (
+    <SectionCard title="Skills">
+        <div className="flex flex-wrap gap-2">
+            {lawyer.practiceAreas?.map((area, index) => (
+                <div key={index} className="bg-primary/10 text-primary px-3 py-1.5 rounded-full text-sm">
+                    {area}
+                </div>
+            ))}
         </div>
-    </div>
+    </SectionCard>
 );
 
 // Activity Section Component
 const ActivitySection = () => (
     <SectionCard title="Activity">
-        <ActivityPost
-            content="Excited to announce that LexInsight has just released a comprehensive guide on the Digital Personal Data Protection Act! We've broken down the complex provisions into simple, actionable information for citizens and businesses. Check it out on our website."
-            timestamp="Posted 2 days ago"
-            likes={42}
-            comments={7}
-        />
-
-        <ActivityPost
-            content="Just wrapped up an incredible panel discussion on 'Technology's Role in Legal Awareness' at the National Legal Tech Summit. The consensus? Tech can democratize legal knowledge, but ethical boundaries must be respected. Thanks to all the participants for their insights!"
-            timestamp="Posted 1 week ago"
-            likes={103}
-            comments={12}
-        />
-
-        <div className="text-center mt-2">
-            <button className="text-primary hover:text-primary-dark flex items-center mx-auto">
-                <span>Show more activity</span>
-                <ChevronDown size={16} className="ml-1" />
-            </button>
-        </div>
-    </SectionCard>
-);
-
-// Recommendation Item Component
-const RecommendationItem = ({ name, title, content, date }) => (
-    <div className="mb-6 last:mb-0">
-        <div className="flex items-start">
-            <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center text-accent mr-3">
-                {name.split(' ').map(n => n[0]).join('')}
-            </div>
-            <div>
-                <h3 className="font-semibold text-text">{name}</h3>
-                <p className="text-sm text-text/70 mb-2">{title} • {date}</p>
-                <p className="text-text/80 text-sm">{content}</p>
-            </div>
-        </div>
-    </div>
-);
-
-// Recommendations Section Component
-const RecommendationsSection = () => (
-    <SectionCard title="Recommendations">
-        <RecommendationItem
-            name="Priya Sharma"
-            title="Managing Partner, Sharma Legal"
-            date="July 2023"
-            content="Aryan has revolutionized how legal information is presented to the public. His platform maintains professional standards while making complex legal concepts accessible. A true innovator in the legal education space."
-        />
-
-        <RecommendationItem
-            name="Dr. Raj Mehta"
-            title="Professor of Law, National Law University"
-            date="March 2023"
-            content="Working with Aryan on legal education content has been refreshing. He has a unique ability to maintain accuracy while simplifying complex legal frameworks for public consumption."
-        />
-
-        <div className="text-center mt-2">
-            <button className="text-primary hover:text-primary-dark flex items-center mx-auto">
-                <span>Show all recommendations</span>
-                <ChevronDown size={16} className="ml-1" />
-            </button>
-        </div>
-    </SectionCard>
-);
-
-// Publications Section Component
-const PublicationsSection = () => (
-    <SectionCard title="Publications">
-        <div className="mb-4 last:mb-0">
-            <div className="flex items-start">
-                <div className="w-12 h-12 bg-primary/10 rounded-md flex items-center justify-center text-primary mr-4">
-                    <BookOpen size={24} />
-                </div>
-                <div>
-                    <h3 className="text-lg font-semibold text-text">Bridging the Legal Knowledge Gap in Digital India</h3>
-                    <p className="text-sm text-text/70">Published in Indian Law Review • October 2022</p>
-                    <p className="mt-2 text-text/80">
-                        This paper explores innovative approaches to legal education for the general public, focusing on digital platforms and ethical considerations in simplifying legal concepts.
-                    </p>
-                </div>
-            </div>
+        <div className="text-center text-text/60">
+            <p>No recent activity</p>
         </div>
     </SectionCard>
 );
 
 // Profile Page Component
 export default function ProfilePage() {
+    const { userData } = useContext(UserDataContext);
+    const [lawyer, setLawyer] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [initialized, setInitialized] = useState(false);
+
+    // Wait for UserDataContext to initialize
+    useEffect(() => {
+        if (userData !== null) {
+            setInitialized(true);
+        }
+    }, [userData]);
+
+    useEffect(() => {
+        if (!initialized) return;
+
+        console.log('UserData in ProfilePage:', userData);
+        const fetchLawyerData = async () => {
+            try {
+                if (!userData?.lawyer_id || userData?.role !== 'Lawyer') {
+                    console.log('Invalid user data:', userData);
+                    setError('Please log in as a lawyer to view your profile');
+                    setLoading(false);
+                    return;
+                }
+
+                console.log('Fetching lawyer data for ID:', userData.lawyer_id);
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/lawyers/${userData.lawyer_id}`);
+                console.log('Lawyer data response:', response.data);
+
+                if (response.data.status === 200) {
+                    setLawyer(response.data.data.lawyer);
+                } else {
+                    throw new Error(response.data.message || 'Failed to fetch lawyer data');
+                }
+            } catch (err) {
+                console.error('Error fetching lawyer data:', err);
+                setError(err.message || 'Failed to fetch lawyer data');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchLawyerData();
+    }, [userData, initialized]);
+
+    if (!initialized) {
+        return (
+            <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto"></div>
+                    <p className="mt-4 text-gray-600">Loading...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto"></div>
+                    <p className="mt-4 text-gray-600">Loading profile...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto text-center">
+                    <p className="text-red-600">{error}</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (!lawyer) {
+        return (
+            <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto text-center">
+                    <p className="text-red-600">No profile data found</p>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="bg-primary/5 min-h-screen">
-            
-
             <main className="container mx-auto px-4 py-6">
                 <div className="bg-background rounded-lg shadow-sm overflow-hidden mb-6">
-                    <ProfileHeader />
-                    <UserInfo />
+                    <ProfileHeader lawyer={lawyer} />
+                    <UserInfo lawyer={lawyer} />
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div className="lg:col-span-2">
-                        <AboutSection />
-                        <ExperienceSection />
-                        <EducationSection />
-                        <PublicationsSection />
+                        <AboutSection lawyer={lawyer} />
+                        <ExperienceSection lawyer={lawyer} />
+                        <EducationSection lawyer={lawyer} />
                     </div>
 
                     <div>
-                        <SkillsSection />
-                        <RecommendationsSection />
+                        <SkillsSection lawyer={lawyer} />
                         <ActivitySection />
                     </div>
                 </div>
@@ -358,7 +299,7 @@ export default function ProfilePage() {
                 <div className="container mx-auto px-6 text-center text-sm">
                     <p>&copy; {new Date().getFullYear()} LexInsight. All Rights Reserved.</p>
                 </div>
-      </footer>
-    </div>
-  );
+            </footer>
+        </div>
+    );
 }

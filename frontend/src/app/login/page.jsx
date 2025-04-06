@@ -30,14 +30,13 @@ export default function Login() {
         setError('');
         console.log(formData);
         try {
-            // Here you would integrate with your backend API
             const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/authenticate`, formData);
 
-            if (!response.status === 200) {
+            if (response.status !== 200) {
                 throw new Error('Login failed');
             }
 
-            const data = await response.data;
+            const data = response.data;
             console.log(data);
             setUserData(data.data);
             // Handle successful login (e.g., store token, redirect)
