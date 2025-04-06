@@ -14,7 +14,9 @@ const LinkChip = ({ href, children }) => {
     return (
         <Link
             href={href}
-            className="inline-flex items-center px-3 py-1 m-1 bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition-colors"
+            className="inline-flex items-center px-3 py-1 m-1 bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition-colors text-sm"
+            target="_blank"
+            rel="noopener noreferrer"
         >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
@@ -24,13 +26,27 @@ const LinkChip = ({ href, children }) => {
     );
 };
 
+// Component to render processed message content
+const ProcessedMessage = ({ content }) => {
+    // Split content by blog links
+    const parts = content.split(/(http:\/\/localhost:3000\/blogs\/\d+)/g);
+
+    return (
+        <div>
+            {parts.map((part, index) => {
+                if (part.match(/http:\/\/localhost:3000\/blogs\/\d+/)) {
+                    return <LinkChip key={index} href={part}>{part}</LinkChip>;
+                }
+                return <ReactMarkdown key={index} components={MarkdownComponents}>{part}</ReactMarkdown>;
+            })}
+        </div>
+    );
+};
+
 // Custom renderer for markdown links
 const MarkdownComponents = {
     a: ({ href, children }) => {
-        if (href?.includes('localhost:3000/blogs/')) {
-            return <LinkChip href={href}>{children}</LinkChip>;
-        }
-        return <a href={href} className="text-blue-600 hover:underline">{children}</a>;
+        return <a href={href} className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">{children}</a>;
     },
     p: ({ children }) => <p className="mb-4 text-gray-800">{children}</p>,
     h1: ({ children }) => <h1 className="text-2xl font-bold mb-4">{children}</h1>,
@@ -80,7 +96,7 @@ Here's my question: ${userInput}
 
 IMPORTANT: When answering my question:
 1. ALWAYS include direct links to relevant blog posts in this exact format: http://localhost:3000/blogs/[id]
-2. For each blog post you reference, include the lawyer ID who wrote it
+2. For each blog post you reference, include the lawyer name who wrote it
 3. Provide comprehensive legal information that directly addresses my query
 4. Maintain a professional tone as a LexInsight legal assistant
 
@@ -168,8 +184,7 @@ Please ensure every response includes at least one direct blog link when relevan
                                     className={`mb-6 ${message.role === 'user' ? 'ml-auto' : 'mr-auto'} max-w-[80%]`}
                                 >
                                     <div className={`flex items-start ${message.role === 'user' ? 'flex-row-reverse' : ''}`}>
-                                        <div className={`flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center ${message.role === 'user' ? 'bg-blue-600 ml-2' : 'bg-gray-600 mr-2'
-                                            }`}>
+                                        <div className={`flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center ${message.role === 'user' ? 'bg-blue-600 ml-2' : 'bg-gray-600 mr-2'}`}>
                                             {message.role === 'user' ? (
                                                 <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -189,9 +204,7 @@ Please ensure every response includes at least one direct blog link when relevan
                                                     <p>{message.content}</p>
                                                 ) : (
                                                         <div className={`${message.role === 'user' ? 'text-white' : 'text-gray-800'}`}>
-                                                            <ReactMarkdown components={MarkdownComponents}>
-                                                                {message.content}
-                                                            </ReactMarkdown>
+                                                            <ProcessedMessage content={message.content} />
                                                     </div>
                                                 )}
                                             </div>
