@@ -18,7 +18,6 @@ export function Header() {
     { href: "/videos", text: "Videos" },
     { href: "/lexbot", text: "LexBot" },
     { href: "/directory", text: "Lawyer Directory" },
-    { href: "/events", text: "Events" },
     { href: "/about", text: "About Us" },
   ];
 
