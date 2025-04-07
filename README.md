@@ -38,7 +38,7 @@ LexInsight is a sophisticated legal expertise platform that leverages artificial
 
 ## Tech Stack  
 
-### Backend (Primary Focus)  
+### Backend
 
 ![Java](https://img.shields.io/badge/Java-21-blue?logo=java&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.4-success?logo=springboot&logoColor=white)
